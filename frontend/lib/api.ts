@@ -47,13 +47,13 @@ async function fetchAPI<T>(
 // Auth API
 export const authAPI = {
   register: async (email: string, password: string, firstName: string, lastName: string, role: string, phone: string, specialization?: string) => {
-    return fetchAPI<{ user: User }>(`${AUTH_SERVICE}/api/auth/register`, 'POST', { 
+    return fetchAPI<{ user: User; accessToken?: string; refreshToken?: string }>(`${AUTH_SERVICE}/api/auth/register`, 'POST', { 
       email, password, firstName, lastName, role, phone, specialization 
     });
   },
 
   login: async (email: string, password: string) => {
-    return fetchAPI<{ user: User }>(`${AUTH_SERVICE}/api/auth/login`, 'POST', { 
+    return fetchAPI<{ user: User; accessToken?: string; refreshToken?: string }>(`${AUTH_SERVICE}/api/auth/login`, 'POST', { 
       email, password 
     });
   },
