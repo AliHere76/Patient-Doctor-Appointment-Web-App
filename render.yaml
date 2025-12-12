@@ -1,0 +1,161 @@
+services:
+  # Auth Service
+  - type: web
+    name: healthcare-auth-service
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: cd services/auth-service && npm install && npm run build
+    startCommand: cd services/auth-service && npm start
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: healthcare-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: healthcare-db
+          property: port
+      - key: DB_NAME
+        value: auth_db
+      - key: DB_USER
+        fromDatabase:
+          name: healthcare-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: healthcare-db
+          property: password
+      - key: REDIS_HOST
+        fromService:
+          name: healthcare-redis
+          type: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          name: healthcare-redis
+          type: redis
+          property: port
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 30d
+      - key: COOKIE_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        sync: false
+      - key: APPOINTMENT_SERVICE_URL
+        sync: false
+
+  # Appointment Service
+  - type: web
+    name: healthcare-appointment-service
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: cd services/appointment-service && npm install && npm run build
+    startCommand: cd services/appointment-service && npm start
+    envVars:
+      - key: PORT
+        value: 3002
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: healthcare-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: healthcare-db
+          property: port
+      - key: DB_NAME
+        value: appointment_db
+      - key: DB_USER
+        fromDatabase:
+          name: healthcare-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: healthcare-db
+          property: password
+      - key: REDIS_HOST
+        fromService:
+          name: healthcare-redis
+          type: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          name: healthcare-redis
+          type: redis
+          property: port
+      - key: JWT_SECRET
+        sync: false
+      - key: AUTH_SERVICE_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+  # Notification Service
+  - type: web
+    name: healthcare-notification-service
+    env: node
+    region: singapore
+    plan: free
+    buildCommand: cd services/notification-service && npm install && npm run build
+    startCommand: cd services/notification-service && npm start
+    envVars:
+      - key: PORT
+        value: 3003
+      - key: NODE_ENV
+        value: production
+      - key: DB_HOST
+        fromDatabase:
+          name: healthcare-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: healthcare-db
+          property: port
+      - key: DB_NAME
+        value: notification_db
+      - key: DB_USER
+        fromDatabase:
+          name: healthcare-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: healthcare-db
+          property: password
+      - key: REDIS_HOST
+        fromService:
+          name: healthcare-redis
+          type: redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          name: healthcare-redis
+          type: redis
+          property: port
+      - key: JWT_SECRET
+        sync: false
+      - key: AUTH_SERVICE_URL
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+
+databases:
+  - name: healthcare-db
+    plan: free
+    databaseName: healthcare
+    user: healthcare_user
+
+  - name: healthcare-redis
+    plan: free
