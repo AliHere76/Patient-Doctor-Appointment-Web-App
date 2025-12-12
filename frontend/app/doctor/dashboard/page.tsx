@@ -161,7 +161,7 @@ export default function DoctorDashboard() {
           <div className="mb-8">
             <h1 className="text-3xl font-black bg-gradient-to-r from-orange-400 to-amber-500 text-transparent bg-clip-text">Doctor Dashboard</h1>
             <p className="text-gray-400 mt-2">
-              Dr. {user.first_name} {user.last_name} - {user.specialization}
+              Dr. {user.firstName} {user.lastName} - {user.specialization}
             </p>
           </div>
 
