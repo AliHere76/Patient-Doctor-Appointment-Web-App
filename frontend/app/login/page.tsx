@@ -23,6 +23,14 @@ export default function LoginPage() {
       const response = await authAPI.login(formData.email, formData.password);
 
       if (response.success) {
+        // Store tokens in localStorage for cross-origin auth
+        if (response.data?.accessToken) {
+          localStorage.setItem('accessToken', response.data.accessToken);
+        }
+        if (response.data?.refreshToken) {
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+        }
+
         const userRole = response.data?.user?.role;
         if (userRole === 'ADMIN') {
           router.push('/admin/dashboard');

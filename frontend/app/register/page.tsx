@@ -59,7 +59,23 @@ export default function RegisterPage() {
       );
 
       if (response.success) {
-        router.push('/login');
+        // Store tokens in localStorage for cross-origin auth
+        if (response.data?.accessToken) {
+          localStorage.setItem('accessToken', response.data.accessToken);
+        }
+        if (response.data?.refreshToken) {
+          localStorage.setItem('refreshToken', response.data.refreshToken);
+        }
+
+        // Redirect to appropriate dashboard
+        const userRole = response.data?.user?.role;
+        if (userRole === 'ADMIN') {
+          router.push('/admin/dashboard');
+        } else if (userRole === 'DOCTOR') {
+          router.push('/doctor/dashboard');
+        } else {
+          router.push('/patient/dashboard');
+        }
       } else {
         setError(response.message || 'Registration failed');
       }

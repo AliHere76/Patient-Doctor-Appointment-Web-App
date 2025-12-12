@@ -21,6 +21,8 @@ export interface AuthResponse {
   message: string;
   data?: {
     user: User;
+    accessToken?: string; // For cross-origin auth
+    refreshToken?: string; // For cross-origin auth
   };
 }
 
